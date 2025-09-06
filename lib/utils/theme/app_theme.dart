@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mindslate/utils/theme/custom_themes/app_text_theme.dart';
+import 'package:mindslate/utils/theme/custom_themes/text_theme.dart';
+import 'package:mindslate/utils/theme/custom_themes/appBar_theme.dart';
 
 class AppTheme{
   AppTheme._(); //Private Constructor
@@ -11,6 +12,7 @@ class AppTheme{
    primaryColor: Colors.blue,
    scaffoldBackgroundColor: Colors.white,
    textTheme: AppTextTheme.lightTextTheme,
+   appBarTheme: MAppBarTheme.lightAppBarTheme,
  );
  static ThemeData darkTheme = ThemeData(
    useMaterial3: true,
@@ -19,6 +21,6 @@ class AppTheme{
    primaryColor: Colors.blue,
    scaffoldBackgroundColor: Colors.black,
    textTheme: AppTextTheme.darkTextTheme,
-
+   appBarTheme: MAppBarTheme.darkAppBarTheme,
  );
 }

@@ -15,12 +15,6 @@ class MindSlate extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: Text('MindSlate'),
-         titleTextStyle: TextStyle(
-           fontSize: 22.0,
-           fontWeight: FontWeight.bold,
-           color: Colors.black,
-           letterSpacing: 0.5,
-         ),
         ),
         body: Center(child: Text("This is the First MindSlate. Get Ready....")),
       ),
