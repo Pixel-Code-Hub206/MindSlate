@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:mindslate/utils/theme/app_theme.dart';
 
 class MindSlate extends StatelessWidget {
   const MindSlate({super.key});
@@ -7,12 +8,21 @@ class MindSlate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      useInheritedMediaQuery: true,
         builder: DevicePreview.appBuilder,
-        theme: ThemeData.dark(),
+        themeMode: ThemeMode.system,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
       home: Scaffold(
-        appBar: AppBar(),
-        body: Text("This is the First MindSlate. Get Ready...."),
+        appBar: AppBar(
+          title: Text('MindSlate'),
+         titleTextStyle: TextStyle(
+           fontSize: 22.0,
+           fontWeight: FontWeight.bold,
+           color: Colors.black,
+           letterSpacing: 0.5,
+         ),
+        ),
+        body: Center(child: Text("This is the First MindSlate. Get Ready....")),
       ),
     );
   }
