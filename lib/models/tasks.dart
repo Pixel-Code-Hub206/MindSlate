@@ -6,7 +6,7 @@ class Tasks{
 
   Tasks(this.isTitle, this.isDone);
 
-  void taskToggle()
+  void toggleDone()
   {
     isDone = !isDone; //Changed false to true and Vice Versa
   }
