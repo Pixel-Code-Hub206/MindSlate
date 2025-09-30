@@ -12,8 +12,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  final List _tasks = <Tasks> [
-
+  final List<Tasks> _tasks = [
+    Tasks(isTitle: 'The header', isBody: 'The Content', isDone: false)
   ];
 
   @override
@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
 
   void addTask(){
     setState(() {   //Using SetState to display changes in the actual UI and not just the list within
-      _tasks.add("title: Placeholder, isDone: false");  //Placeholder details
+      _tasks.add(Tasks(isTitle: 'Heading 1', isBody: 'Body', isDone: false));  //Placeholder function call with dummy details
     });
   }
 
