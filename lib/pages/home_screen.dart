@@ -13,21 +13,33 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   final List<Tasks> _tasks = [
-    Tasks(isTitle: 'The header', isBody: 'The Content', isDone: false)
+    Tasks(isTitle: 'The header', isBody: 'The Content', isDone: false),
+    Tasks(isTitle: '2nd header', isBody: 'More Content', isDone: false),
   ];
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      builder: DevicePreview.appBuilder,
-      themeMode: ThemeMode.system,
+      builder: DevicePreview.appBuilder,  //Device Preview
+      themeMode: ThemeMode.system,      //ThemeData
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       home: Scaffold(
         appBar: AppBar(
           title: Text('MindSlate'),
+          centerTitle: true,
         ),
-        body: Center(child: Text("Home Screen")),
+        body: ListView.builder(
+          itemCount: _tasks.length,
+            itemBuilder: (BuildContext context, int index){
+            return Container(
+              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+              child: Card(
+                child: Text('${_tasks[index].isBody}'), //Test data over the UI
+              ),
+            );
+            },
+        ),
       ),
     );
   }
