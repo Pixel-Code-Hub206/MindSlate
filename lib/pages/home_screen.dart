@@ -13,9 +13,9 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   final List<Tasks> _tasks = [
-    Tasks(isTitle: 'The header', isBody: 'The Content', isDone: false),
-    Tasks(isTitle: '2nd header', isBody: 'More Content', isDone: false),
-    Tasks(isTitle: 'Another header', isBody: 'Even More Content', isDone: false),
+    Tasks(isBody: 'The Content', isDone: false),
+    Tasks(isBody: 'More Content', isDone: true),
+    Tasks(isBody: 'Even More Content', isDone: false),
   ];
 
   @override
@@ -38,10 +38,12 @@ class _HomeState extends State<Home> {
               padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 5.0),
               child: Card(
                   child: ListTile(
-                    leading : IconButton(onPressed: () {
-                      print('Editing the task');
-                    },
-                        icon: Icon(Icons.edit)),
+                    leading : Checkbox(value: _tasks[index].isDone,
+                        onChanged: (newBool) {
+                      toggleDone(index);
+                        },
+                    ),
+
                       title: Text(
                         '${_tasks[index].isBody}',
                         style: TextStyle(
@@ -78,7 +80,7 @@ class _HomeState extends State<Home> {
 
   void addTask(){
     setState(() {   //Using SetState to display changes in the actual UI and not just the list within
-      _tasks.add(Tasks(isTitle: 'Heading 1', isBody: 'Body', isDone: false));  //Placeholder function call with dummy details
+      _tasks.add(Tasks(isBody: 'Body', isDone: false));  //Placeholder function call with dummy details
     });
   }
 
