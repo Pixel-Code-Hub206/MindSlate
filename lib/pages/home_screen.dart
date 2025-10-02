@@ -35,20 +35,32 @@ class _HomeState extends State<Home> {
           itemCount: _tasks.length,
             itemBuilder: (BuildContext context, int index){
             return Container(
-              padding: EdgeInsets.symmetric(vertical:8, horizontal: 6),
+              padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 5.0),
               child: Card(
-                child: Text(
-                    '${_tasks[index].isBody}',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    decoration: _tasks[index].isDone  //If the task is finished
-                    ? TextDecoration.lineThrough    //Strike it!
-                    : TextDecoration.none,
-                    decorationThickness: _tasks[index].isDone ? 2 : null,
+                  child: ListTile(
+                    leading : IconButton(onPressed: () {
+                      print('Editing the task');
+                    },
+                        icon: Icon(Icons.edit)),
+                      title: Text(
+                        '${_tasks[index].isBody}',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          decoration: _tasks[index].isDone  //If the task is finished
+                              ? TextDecoration.lineThrough    //Strike it!
+                              : TextDecoration.none,
+                          decorationThickness: _tasks[index].isDone ? 2 : null,
+                        ),
+                      ),
+                    trailing: IconButton(onPressed: (){
+                      print('Task is deleted');
+                    },
+                        icon: Icon(Icons.delete),
+                        color: Colors.grey[500],
+                    ),
                   ),
-                ), //Test data over the UI
-              ),
-            );
+                ),
+            ); //Test data over the UI,
             },
         ),
         floatingActionButton: FloatingActionButton(
