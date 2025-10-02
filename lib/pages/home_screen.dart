@@ -15,6 +15,7 @@ class _HomeState extends State<Home> {
   final List<Tasks> _tasks = [
     Tasks(isTitle: 'The header', isBody: 'The Content', isDone: false),
     Tasks(isTitle: '2nd header', isBody: 'More Content', isDone: false),
+    Tasks(isTitle: 'Another header', isBody: 'Even More Content', isDone: false),
   ];
 
   @override
@@ -25,6 +26,7 @@ class _HomeState extends State<Home> {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       home: Scaffold(
+        backgroundColor: Colors.grey[300],
         appBar: AppBar(
           title: Text('MindSlate'),
           centerTitle: true,
@@ -33,12 +35,30 @@ class _HomeState extends State<Home> {
           itemCount: _tasks.length,
             itemBuilder: (BuildContext context, int index){
             return Container(
-              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+              padding: EdgeInsets.symmetric(vertical:8, horizontal: 6),
               child: Card(
-                child: Text('${_tasks[index].isBody}'), //Test data over the UI
+                child: Text(
+                    '${_tasks[index].isBody}',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    decoration: _tasks[index].isDone  //If the task is finished
+                    ? TextDecoration.lineThrough    //Strike it!
+                    : TextDecoration.none,
+                    decorationThickness: _tasks[index].isDone ? 2 : null,
+                  ),
+                ), //Test data over the UI
               ),
             );
             },
+        ),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              print('Task added to the list');
+            },
+            child: const Icon(
+            Icons.add,
+              color: Colors.blueGrey,
+        ),
         ),
       ),
     );
