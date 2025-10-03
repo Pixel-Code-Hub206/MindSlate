@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
-import 'package:mindslate/utils/theme/app_theme.dart';
 import 'package:mindslate/models/tasks.dart';
 
 class Home extends StatefulWidget {
@@ -20,16 +19,12 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      builder: DevicePreview.appBuilder,  //Device Preview
-      themeMode: ThemeMode.system,      //ThemeData
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      home: Scaffold(
+    return Scaffold(
         backgroundColor: Colors.grey[300],
         appBar: AppBar(
           title: Text('MindSlate'),
           centerTitle: true,
+          backgroundColor: Colors.purple[700],
         ),
         body: ListView.builder(
           itemCount: _tasks.length,
@@ -55,7 +50,8 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                     trailing: IconButton(onPressed: (){
-                      print('Task is deleted');
+                      print('Task is deleted');   //Console logs
+                      deleteTask(index);
                     },
                         icon: Icon(Icons.delete),
                         color: Colors.grey[500],
@@ -65,17 +61,36 @@ class _HomeState extends State<Home> {
             ); //Test data over the UI,
             },
         ),
-        floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              print('Task added to the list');
-            },
-            child: const Icon(
-            Icons.add,
-              color: Colors.blueGrey,
+        floatingActionButton: Builder(
+            builder: (innerContext) => FloatingActionButton(
+              onPressed: () {
+                print('Task added to the list');
+                showModalBottomSheet(context: context,
+                  builder: (BuildContext context)
+                  {
+                    return Form(
+                      child: Column(
+                        children: [
+                          TextFormField(    //Input for the task description
+                            maxLength: 40,
+                            decoration: const InputDecoration(
+                              label: Text('Enter the task Description'),
+                            ),
+                          ),
+                          Text('This is a Bottom Sheet preview'),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+              child: const Icon(
+                Icons.add,
+                color: Colors.blueGrey,
+              ),
+            ),
         ),
-        ),
-      ),
-    );
+      );
   }
 
   void addTask(){
@@ -84,9 +99,9 @@ class _HomeState extends State<Home> {
     });
   }
 
-  void deleteTask(int index){
+  void deleteTask(int index){     //Deletes the tasks and removes them from the UI
     setState(() {
-      _tasks.remove(index);
+      _tasks.removeAt(index);
     });
   }
 
