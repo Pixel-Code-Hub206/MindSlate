@@ -18,7 +18,7 @@ class _HomeState extends State<Home> {
 
   final List<Tasks> _tasks = [
     Tasks(isTitle: 'Task 1', isBody: 'Some description for the task', priority: Priority.medium, isDone: false),
-    Tasks(isTitle: 'Task 2', isBody: 'Try using the + i.e, FAB button to Tasks!', priority: Priority.high, isDone: true),
+    Tasks(isTitle: 'Task 2', isBody: 'Try using the + i.e, FAB button to Tasks!', priority: Priority.high, isDone: false),
     Tasks(isTitle: 'Task X', isBody: 'Delete the tasks using the bin icon.', priority: Priority.medium, isDone: false),
   ];
 
@@ -45,7 +45,7 @@ class _HomeState extends State<Home> {
                     ),
 
                       title: Text(
-                        '${_tasks[index].isTitle}',
+                        _tasks[index].isTitle,   //Task Heading
                         // style: TextStyle(  // //Optional if one wants to strike the headers
                         //   fontSize: 18.0,
                         //   decoration: _tasks[index].isDone  //If the task is finished
@@ -57,14 +57,17 @@ class _HomeState extends State<Home> {
 
                     subtitle: Column(
                       children: [
-                        Text(
-                          _tasks[index].isBody,
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            decoration: _tasks[index].isDone  //If the task is finished
-                                ? TextDecoration.lineThrough    //Strike it!
-                                : TextDecoration.none,
-                            decorationThickness: _tasks[index].isDone ? 2 : null,
+                        Align(
+                          alignment: Alignment.centerLeft,    //For neater Card Formatting
+                          child: Text(
+                            _tasks[index].isBody,     //Task Description
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              decoration: _tasks[index].isDone  //If the task is finished
+                                  ? TextDecoration.lineThrough    //Strike it!
+                                  : TextDecoration.none,
+                              decorationThickness: _tasks[index].isDone ? 2 : null,
+                            ),
                           ),
                         ),
 
