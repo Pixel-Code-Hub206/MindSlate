@@ -11,10 +11,13 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
+  final _formGlobalKey = GlobalKey<FormState>();
+  String _taskBody = '';
+
   final List<Tasks> _tasks = [
-    Tasks(isBody: 'The Content', isDone: false),
-    Tasks(isBody: 'More Content', isDone: true),
-    Tasks(isBody: 'Even More Content', isDone: false),
+    Tasks(isBody: 'Task 1', isDone: false),
+    Tasks(isBody: 'Task 2', isDone: true),
+    Tasks(isBody: 'Task X', isDone: false),
   ];
 
   @override
@@ -69,16 +72,47 @@ class _HomeState extends State<Home> {
                   builder: (BuildContext context)
                   {
                     return Form(
-                      child: Column(
-                        children: [
-                          TextFormField(    //Input for the task description
-                            maxLength: 40,
-                            decoration: const InputDecoration(
-                              label: Text('Enter the task Description'),
+                      key: _formGlobalKey,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          children: [
+                            SizedBox(height: 20.0),
+
+                            TextFormField(    //Input for the task description
+                              maxLength: 40,
+                              decoration: const InputDecoration(
+                                label: Text('Task Description'),
+                              ),
+                              validator: (value) {
+                                if(value == null || value.isEmpty || value.length < 5)
+                                  {
+                                    return "The given task must be lengthier";
+                                  }
+                                  return null;  //If no-errors
+                              },
+                                onSaved: (value) {
+                                  _taskBody = value!;   //Updating the task's description after validation
+                                },
                             ),
-                          ),
-                          Text('This is a Bottom Sheet preview'),
-                        ],
+
+                            SizedBox(height: 10.0),
+
+                            FilledButton(onPressed: () {
+                              if(_formGlobalKey.currentState!.validate()){ //Form Validation
+                                _formGlobalKey.currentState!.save();  //Lock the data from the fields
+                                addTask();    //Only adds to-do's once the Form is validated
+                              }
+                            },
+                              style: FilledButton.styleFrom(
+                                backgroundColor: Colors.purple[700],
+                              ),
+                                child: const Text(
+                                  'Add Task',
+                                ),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },
@@ -95,7 +129,10 @@ class _HomeState extends State<Home> {
 
   void addTask(){
     setState(() {   //Using SetState to display changes in the actual UI and not just the list within
-      _tasks.add(Tasks(isBody: 'Body', isDone: false));  //Placeholder function call with dummy details
+      _tasks.add(Tasks(
+          isBody: _taskBody,
+          isDone: false
+      ));
     });
   }
 
