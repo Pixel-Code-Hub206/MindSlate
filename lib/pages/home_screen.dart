@@ -18,7 +18,7 @@ class _HomeState extends State<Home> {
 
   final List<Tasks> _tasks = [
     Tasks(isTitle: 'Task 1', isBody: 'Some description for the task', priority: Priority.medium, isDone: false),
-    Tasks(isTitle: 'Task 2', isBody: 'Try using the + / FAB button to Tasks!', priority: Priority.medium, isDone: true),
+    Tasks(isTitle: 'Task 2', isBody: 'Try using the + i.e, FAB button to Tasks!', priority: Priority.high, isDone: true),
     Tasks(isTitle: 'Task X', isBody: 'Delete the tasks using the bin icon.', priority: Priority.medium, isDone: false),
   ];
 
@@ -46,7 +46,7 @@ class _HomeState extends State<Home> {
 
                       title: Text(
                         '${_tasks[index].isTitle}',
-                        // style: TextStyle(
+                        // style: TextStyle(  // //Optional if one wants to strike the headers
                         //   fontSize: 18.0,
                         //   decoration: _tasks[index].isDone  //If the task is finished
                         //       ? TextDecoration.lineThrough    //Strike it!
@@ -55,15 +55,28 @@ class _HomeState extends State<Home> {
                         // ),
                       ),
 
-                    subtitle: Text(
-                      '${_tasks[index].isBody}',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        decoration: _tasks[index].isDone  //If the task is finished
-                            ? TextDecoration.lineThrough    //Strike it!
-                            : TextDecoration.none,
-                        decorationThickness: _tasks[index].isDone ? 2 : null,
-                      ),
+                    subtitle: Column(
+                      children: [
+                        Text(
+                          _tasks[index].isBody,
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            decoration: _tasks[index].isDone  //If the task is finished
+                                ? TextDecoration.lineThrough    //Strike it!
+                                : TextDecoration.none,
+                            decorationThickness: _tasks[index].isDone ? 2 : null,
+                          ),
+                        ),
+
+                        SizedBox(height: 5.0),
+
+                        Text(
+                          _tasks[index].priority.pTitle,
+                          style: TextStyle(
+                            color: _tasks[index].priority.color,
+                          ),
+                        ),
+                      ],
                     ),
 
                     trailing: IconButton(onPressed: (){
@@ -81,7 +94,7 @@ class _HomeState extends State<Home> {
         floatingActionButton: Builder(
             builder: (innerContext) => FloatingActionButton(
               onPressed: () {
-                print('Task added to the list');
+                print('FAB clicked!');
                 showModalBottomSheet(context: context,
                   builder: (BuildContext context)
                   {
@@ -139,7 +152,9 @@ class _HomeState extends State<Home> {
                                 );
                             }).toList(),
                                 onChanged: (value) {
-                                print(value);
+                                setState(() {
+                                  _selectedPriority = value!; //Save the selected priority and rebuild the widget
+                                });
                                 },
                             ),
 
@@ -178,9 +193,9 @@ class _HomeState extends State<Home> {
   void addTask(){
     setState(() {   //Using SetState to display changes in the actual UI by updating the list within
       _tasks.add(Tasks(
-          isTitle: _taskTitle,
+          isTitle: _taskTitle,    //Saving the local input data and storing it with a new instance for the list
           isBody: _taskBody,
-          priority: Priority.medium,
+          priority: _selectedPriority,
           isDone: false
       ));
     });
