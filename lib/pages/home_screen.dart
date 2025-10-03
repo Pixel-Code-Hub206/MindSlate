@@ -12,12 +12,14 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   final _formGlobalKey = GlobalKey<FormState>();
+  String _taskTitle = '';
   String _taskBody = '';
+  Priority _selectedPriority = Priority.low;
 
   final List<Tasks> _tasks = [
-    Tasks(isBody: 'Task 1', isDone: false),
-    Tasks(isBody: 'Task 2', isDone: true),
-    Tasks(isBody: 'Task X', isDone: false),
+    Tasks(isTitle: 'Task 1', isBody: 'Some description for the task', priority: Priority.medium, isDone: false),
+    Tasks(isTitle: 'Task 2', isBody: 'Try using the + / FAB button to Tasks!', priority: Priority.medium, isDone: true),
+    Tasks(isTitle: 'Task X', isBody: 'Delete the tasks using the bin icon.', priority: Priority.medium, isDone: false),
   ];
 
   @override
@@ -43,15 +45,27 @@ class _HomeState extends State<Home> {
                     ),
 
                       title: Text(
-                        '${_tasks[index].isBody}',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          decoration: _tasks[index].isDone  //If the task is finished
-                              ? TextDecoration.lineThrough    //Strike it!
-                              : TextDecoration.none,
-                          decorationThickness: _tasks[index].isDone ? 2 : null,
-                        ),
+                        '${_tasks[index].isTitle}',
+                        // style: TextStyle(
+                        //   fontSize: 18.0,
+                        //   decoration: _tasks[index].isDone  //If the task is finished
+                        //       ? TextDecoration.lineThrough    //Strike it!
+                        //       : TextDecoration.none,
+                        //   decorationThickness: _tasks[index].isDone ? 2 : null,
+                        // ),
                       ),
+
+                    subtitle: Text(
+                      '${_tasks[index].isBody}',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        decoration: _tasks[index].isDone  //If the task is finished
+                            ? TextDecoration.lineThrough    //Strike it!
+                            : TextDecoration.none,
+                        decorationThickness: _tasks[index].isDone ? 2 : null,
+                      ),
+                    ),
+
                     trailing: IconButton(onPressed: (){
                       print('Task is deleted');   //Console logs
                       deleteTask(index);
@@ -80,6 +94,23 @@ class _HomeState extends State<Home> {
                             SizedBox(height: 20.0),
 
                             TextFormField(    //Input for the task description
+                              maxLength: 25,
+                              decoration: const InputDecoration(
+                                label: Text('Task Title'),
+                              ),
+                              validator: (value) {
+                                if(value == null || value.isEmpty || value.length < 2)
+                                {
+                                  return "The given title must be lengthier";
+                                }
+                                return null;  //If no-errors
+                              },
+                              onSaved: (value) {
+                                _taskTitle= value!;   //Updating the task's description after validation
+                              },
+                            ),
+
+                            TextFormField(    //Input for the task description
                               maxLength: 40,
                               decoration: const InputDecoration(
                                 label: Text('Task Description'),
@@ -96,12 +127,29 @@ class _HomeState extends State<Home> {
                                 },
                             ),
 
+                            DropdownButtonFormField(
+                              value: _selectedPriority,
+                              decoration: const InputDecoration(
+                                label: Text('Task Title'),
+                              ),
+                              items: Priority.values.map((p) {
+                                return DropdownMenuItem(
+                                  value: p,
+                                    child: Text(p.pTitle),  //Using the p identifier to mark each item in the list
+                                );
+                            }).toList(),
+                                onChanged: (value) {
+                                print(value);
+                                },
+                            ),
+
                             SizedBox(height: 10.0),
 
                             FilledButton(onPressed: () {
                               if(_formGlobalKey.currentState!.validate()){ //Form Validation
                                 _formGlobalKey.currentState!.save();  //Lock the data from the fields
                                 addTask();    //Only adds to-do's once the Form is validated
+                                _formGlobalKey.currentState!.reset();
                               }
                             },
                               style: FilledButton.styleFrom(
@@ -128,9 +176,11 @@ class _HomeState extends State<Home> {
   }
 
   void addTask(){
-    setState(() {   //Using SetState to display changes in the actual UI and not just the list within
+    setState(() {   //Using SetState to display changes in the actual UI by updating the list within
       _tasks.add(Tasks(
+          isTitle: _taskTitle,
           isBody: _taskBody,
+          priority: Priority.medium,
           isDone: false
       ));
     });
