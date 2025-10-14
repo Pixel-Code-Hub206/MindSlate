@@ -9,7 +9,7 @@ void main() => runApp(
       enabled: kDebugMode,
        builder: (context) => MaterialApp(
            builder: DevicePreview.appBuilder,   //To enable Device Preview
-         useInheritedMediaQuery: true,
+         useInheritedMediaQuery: true,      //Required
            home: Home(),
            themeMode: ThemeMode.system,      //ThemeData
            theme: AppTheme.lightTheme,

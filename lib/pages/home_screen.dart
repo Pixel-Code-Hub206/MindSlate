@@ -27,10 +27,40 @@ class _HomeState extends State<Home> {
     return Scaffold(
         backgroundColor: Colors.grey[300],
         appBar: AppBar(
-          title: Text('MindSlate'),
-          centerTitle: true,
+          title: Center(
+            child: RichText(
+               text: TextSpan(
+                    children:[
+                      TextSpan(
+                          text: "Mind",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30.0,
+                          ),
+                      ),
+                      WidgetSpan(
+                        alignment: PlaceholderAlignment.middle,
+                        child: Card(
+                          color: Colors.white,
+                          child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 3.0, horizontal: 4.0),
+                            child: Text(
+                                "Slate",
+                              style: TextStyle(
+                                fontSize: 30.0,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+            ),
+          ),
           backgroundColor: Colors.purple[700],
         ),
+
         body: ListView.builder(
           itemCount: _tasks.length,
             itemBuilder: (BuildContext context, int index){
@@ -94,6 +124,7 @@ class _HomeState extends State<Home> {
             ); //Test data over the UI,
             },
         ),
+
         floatingActionButton: Builder(
             builder: (innerContext) => FloatingActionButton(
               onPressed: () {
