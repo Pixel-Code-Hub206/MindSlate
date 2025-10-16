@@ -18,7 +18,7 @@ class _HomeState extends State<Home> {
 
   final List<Tasks> _tasks = [
     Tasks(isTitle: 'Task 1', isBody: 'Some description here!', priority: Priority.medium, isDone: false),
-    Tasks(isTitle: 'Task 2', isBody: 'Try using the + i.e, FAB button to Tasks!', priority: Priority.high, isDone: false),
+    Tasks(isTitle: 'Task 2', isBody: 'Try using the + button to add tasks!', priority: Priority.high, isDone: false),
     Tasks(isTitle: 'Task X', isBody: 'Delete the tasks using the bin icon.', priority: Priority.medium, isDone: false),
   ];
 
@@ -37,17 +37,21 @@ class _HomeState extends State<Home> {
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                     color: Theme.of(context).appBarTheme.foregroundColor,
                     fontWeight: FontWeight.w600,
+                    fontFamily: 'Vibur',
+                    fontSize: 28.0,
                   ),
                 ),
                 Card(
                   color: Theme.of(context).colorScheme.surface,
                  child: Padding(
-                   padding: const EdgeInsets.all(8.0),
+                   padding: const EdgeInsets.all(7.0),
                    child: Text(
                        'Slate',
                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                        color: Theme.of(context).colorScheme.onSurface,
-                       fontWeight: FontWeight.w700,
+                       fontWeight: FontWeight.w600,
+                       fontFamily: 'Vibur',
+                       fontSize: 28.0,
                      ),
                    ),
                  ),
@@ -95,7 +99,7 @@ class _HomeState extends State<Home> {
                               decoration: _tasks[index].isDone  //If the task is finished
                                   ? TextDecoration.lineThrough    //Strike it!
                                   : TextDecoration.none,
-                              decorationThickness: _tasks[index].isDone ? 2 : null,
+                              decorationThickness: _tasks[index].isDone ? 1.5 : null,
                             ),
                           ),
                         ),

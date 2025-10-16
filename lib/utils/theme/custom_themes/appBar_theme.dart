@@ -11,7 +11,7 @@ class MAppBarTheme{
     backgroundColor: Color(0xFF5C0375),
     // surfaceTintColor: Colors.transparent,
     iconTheme: IconThemeData(color: Colors.white, size: 24.0),
-    titleTextStyle: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w600, color: Colors.black),
+    titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w600, color: Colors.black, fontFamily: 'Vibur'),
   );
 
   static const darkAppBarTheme = AppBarThemeData(
@@ -21,6 +21,6 @@ class MAppBarTheme{
     backgroundColor: Color(0xFF9402BE),
     // surfaceTintColor: Colors.transparent,
     iconTheme: IconThemeData(color: Colors.black, size: 24.0),
-    titleTextStyle: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w600, color: Colors.white),
+    titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w600, color: Colors.white, fontFamily: 'Vibur'),
   );
 }

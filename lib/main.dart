@@ -11,7 +11,7 @@ void main() => runApp(
            builder: DevicePreview.appBuilder,   //To enable Device Preview
          useInheritedMediaQuery: true,      //Required
            home: Home(),
-           themeMode: ThemeMode.dark,      //ThemeData
+           themeMode: ThemeMode.system,      //ThemeData
            theme: AppTheme.lightTheme,
            darkTheme: AppTheme.darkTheme,
        ),

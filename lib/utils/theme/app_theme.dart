@@ -10,7 +10,7 @@ class AppTheme{
 
  static ThemeData lightTheme =  ThemeData(
    useMaterial3: true,
-   fontFamily: 'Poppins',
+   fontFamily: 'Inter',
    brightness: Brightness.light,
    primaryColor: Colors.blue,
    cardColor: const Color(0xFFFFFFFF),
@@ -22,7 +22,7 @@ class AppTheme{
  );
  static ThemeData darkTheme = ThemeData(
    useMaterial3: true,
-   fontFamily: 'Poppins',
+   fontFamily: 'Inter',
    brightness: Brightness.dark,
    primaryColor: Colors.black,
    cardColor: const Color(0xFF3A3939),
