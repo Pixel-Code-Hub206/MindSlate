@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 enum Priority{
-  urgent(color: Colors.red, pTitle: 'Urgent'),  //Priority defined in the form of a Priority instance
-  high(color: Colors.orange, pTitle: 'High'),
-  medium(color: Colors.yellow, pTitle: 'Medium'),
-  low(color: Colors.green, pTitle: 'Low');
+  urgent(color: Color(0xFFFF3232), pTitle: 'Urgent'),  //Priority defined in the form of a Priority instance
+  high(color: Color(0xFFFF961E), pTitle: 'High'),
+  medium(color: Color(0xFFF4FC17), pTitle: 'Medium'),
+  low(color: Color(0xFF3BFF48), pTitle: 'Low');
 
  final Color color;
  final String pTitle;

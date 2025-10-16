@@ -17,7 +17,7 @@ class _HomeState extends State<Home> {
   Priority _selectedPriority = Priority.low;
 
   final List<Tasks> _tasks = [
-    Tasks(isTitle: 'Task 1', isBody: 'Some description for the task', priority: Priority.medium, isDone: false),
+    Tasks(isTitle: 'Task 1', isBody: 'Some description here!', priority: Priority.medium, isDone: false),
     Tasks(isTitle: 'Task 2', isBody: 'Try using the + i.e, FAB button to Tasks!', priority: Priority.high, isDone: false),
     Tasks(isTitle: 'Task X', isBody: 'Delete the tasks using the bin icon.', priority: Priority.medium, isDone: false),
   ];
@@ -28,31 +28,32 @@ class _HomeState extends State<Home> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
           // backgroundColor: Theme.of(context).colorScheme.onPrimary,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                  'Mind',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimary,
-                  fontWeight: FontWeight.w600,
+          title: SafeArea(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                    'Mind',
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: Theme.of(context).appBarTheme.foregroundColor,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
-              SizedBox(width: 6),
-              Card(
-                color: Theme.of(context).colorScheme.surface,
-               child: Padding(
-                 padding: const EdgeInsets.all(8.0),
-                 child: Text(
-                     'Slate',
-                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                     color: Theme.of(context).colorScheme.onSurface,
-                     fontWeight: FontWeight.w700,
+                Card(
+                  color: Theme.of(context).colorScheme.surface,
+                 child: Padding(
+                   padding: const EdgeInsets.all(8.0),
+                   child: Text(
+                       'Slate',
+                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                       color: Theme.of(context).colorScheme.onSurface,
+                       fontWeight: FontWeight.w700,
+                     ),
                    ),
                  ),
-               ),
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
 
@@ -62,6 +63,7 @@ class _HomeState extends State<Home> {
             return Container(
               padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 5.0),
               child: Card(
+                color: Theme.of(context).cardColor,
                   child: ListTile(
                     leading : Checkbox(value: _tasks[index].isDone,
                         onChanged: (newBool) {
@@ -70,7 +72,7 @@ class _HomeState extends State<Home> {
                     ),
 
                       title: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.fromLTRB(6.0, 4.5, 6.0, 0.0),
                         child: Align(
                           alignment: Alignment.center,
                           child: Text(
@@ -139,7 +141,8 @@ class _HomeState extends State<Home> {
                             TextFormField(    //Input for the task description
                               maxLength: 25,
                               decoration: const InputDecoration(
-                                label: Text('Task Title'),
+                                hintText: 'Enter your title',
+                                labelText: 'Task Title',
                               ),
                               validator: (value) {
                                 if(value == null || value.isEmpty || value.length < 2)
@@ -156,7 +159,8 @@ class _HomeState extends State<Home> {
                             TextFormField(    //Input for the task description
                               maxLength: 40,
                               decoration: const InputDecoration(
-                                label: Text('Task Description'),
+                                hintText: 'Enter your description',
+                                labelText: 'Task Description',
                               ),
                               validator: (value) {
                                 if(value == null || value.isEmpty || value.length < 5)
@@ -173,7 +177,8 @@ class _HomeState extends State<Home> {
                             DropdownButtonFormField(
                               value: _selectedPriority,
                               decoration: const InputDecoration(
-                                label: Text('Task Priority'),
+                                hintText: 'Set your Priority',
+                                labelText: 'Task Priority',
                               ),
                               items: Priority.values.map((p) {
                                 return DropdownMenuItem(
@@ -199,12 +204,13 @@ class _HomeState extends State<Home> {
                                 }
                               },
                                 style: FilledButton.styleFrom(
-                                  backgroundColor: Colors.purple[700],
+                                  backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
                                 ),
                                   child: Text(
                                     'Add Task',
                                     style: TextStyle(
                                       fontSize: 16.0,
+                                      color: Theme.of(context).appBarTheme.foregroundColor,
                                     ),
                                   ),
                               ),
@@ -216,9 +222,9 @@ class _HomeState extends State<Home> {
                   },
                 );
               },
+              shape: const CircleBorder(),
               child: const Icon(
                 Icons.add,
-                color: Colors.blueGrey,
               ),
             ),
         ),

@@ -4,11 +4,23 @@ class MCheckBoxTheme{
 
   MCheckBoxTheme._();
 
-  static const lightCheckBoxTheme = CheckboxThemeData(
-    //Placeholder for the Light theme
+  static final lightCheckBoxTheme = CheckboxThemeData(
+    fillColor: WidgetStateProperty.resolveWith((states) {
+      if(states.contains(WidgetState.selected)){
+        return Colors.black;
+      }
+      return Colors.transparent;
+    }),
+    checkColor: WidgetStateProperty.all(Colors.white),
   );
 
-  static const darkCheckBoxTheme = CheckboxThemeData(
-    //Placeholder for the dark theme
+  static final darkCheckBoxTheme = CheckboxThemeData(
+    fillColor: WidgetStateProperty.resolveWith((states) {
+      if(states.contains(WidgetState.selected)){
+        return Colors.white;
+      }
+      return Colors.transparent;
+    }),
+    checkColor: WidgetStateProperty.all(Colors.black),
   );
 }
