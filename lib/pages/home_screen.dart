@@ -114,7 +114,6 @@ class _HomeState extends State<Home> {
                       deleteTask(index);
                     },
                         icon: Icon(Icons.delete),
-                        color: Colors.grey[500],
                     ),
                   ),
                 ),
@@ -145,7 +144,7 @@ class _HomeState extends State<Home> {
                               validator: (value) {
                                 if(value == null || value.isEmpty || value.length < 2)
                                 {
-                                  return "The given title must be lengthier";
+                                  return "Title too short";
                                 }
                                 return null;  //If no-errors
                               },
@@ -162,7 +161,7 @@ class _HomeState extends State<Home> {
                               validator: (value) {
                                 if(value == null || value.isEmpty || value.length < 5)
                                   {
-                                    return "The given task must be lengthier";
+                                    return "Add more details";
                                   }
                                   return null;  //If no-errors
                               },
@@ -174,7 +173,7 @@ class _HomeState extends State<Home> {
                             DropdownButtonFormField(
                               value: _selectedPriority,
                               decoration: const InputDecoration(
-                                label: Text('Task Title'),
+                                label: Text('Task Priority'),
                               ),
                               items: Priority.values.map((p) {
                                 return DropdownMenuItem(
@@ -189,21 +188,26 @@ class _HomeState extends State<Home> {
                                 },
                             ),
 
-                            SizedBox(height: 10.0),
+                            SizedBox(height: 100.0),
 
-                            FilledButton(onPressed: () {
-                              if(_formGlobalKey.currentState!.validate()){ //Form Validation
-                                _formGlobalKey.currentState!.save();  //Lock the data from the fields
-                                addTask();    //Only adds to-do's once the Form is validated
-                                _formGlobalKey.currentState!.reset();
-                              }
-                            },
-                              style: FilledButton.styleFrom(
-                                backgroundColor: Colors.purple[700],
-                              ),
-                                child: const Text(
-                                  'Add Task',
+                            SafeArea(
+                              child: FilledButton(onPressed: () {
+                                if(_formGlobalKey.currentState!.validate()){ //Form Validation
+                                  _formGlobalKey.currentState!.save();  //Lock the data from the fields
+                                  addTask();    //Only adds to-do's once the Form is validated
+                                  _formGlobalKey.currentState!.reset();
+                                }
+                              },
+                                style: FilledButton.styleFrom(
+                                  backgroundColor: Colors.purple[700],
                                 ),
+                                  child: Text(
+                                    'Add Task',
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                    ),
+                                  ),
+                              ),
                             ),
                           ],
                         ),
