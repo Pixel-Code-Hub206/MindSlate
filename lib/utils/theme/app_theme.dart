@@ -18,7 +18,7 @@ class AppTheme{
    useMaterial3: true,
    fontFamily: 'Poppins',
    brightness: Brightness.dark,
-   primaryColor: Colors.blue,
+   primaryColor: Colors.black,
    scaffoldBackgroundColor: Colors.black,
    textTheme: AppTextTheme.darkTextTheme,
    appBarTheme: MAppBarTheme.darkAppBarTheme,

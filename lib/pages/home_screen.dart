@@ -25,40 +25,35 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
-          title: Center(
-            child: RichText(
-               text: TextSpan(
-                    children:[
-                      TextSpan(
-                          text: "Mind",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30.0,
-                          ),
-                      ),
-                      WidgetSpan(
-                        alignment: PlaceholderAlignment.middle,
-                        child: Card(
-                          color: Colors.white,
-                          child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 3.0, horizontal: 4.0),
-                            child: Text(
-                                "Slate",
-                              style: TextStyle(
-                                fontSize: 30.0,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                  ],
+          // backgroundColor: Theme.of(context).colorScheme.onPrimary,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                  'Mind',
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  fontWeight: FontWeight.w600,
                 ),
-            ),
+              ),
+              SizedBox(width: 6),
+              Card(
+                color: Theme.of(context).colorScheme.surface,
+               child: Padding(
+                 padding: const EdgeInsets.all(8.0),
+                 child: Text(
+                     'Slate',
+                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                     color: Theme.of(context).colorScheme.onSurface,
+                     fontWeight: FontWeight.w700,
+                   ),
+                 ),
+               ),
+              ),
+            ],
           ),
-          backgroundColor: Colors.purple[700],
         ),
 
         body: ListView.builder(
@@ -74,15 +69,17 @@ class _HomeState extends State<Home> {
                         },
                     ),
 
-                      title: Text(
-                        _tasks[index].isTitle,   //Task Heading
-                        // style: TextStyle(  // //Optional if one wants to strike the headers
-                        //   fontSize: 18.0,
-                        //   decoration: _tasks[index].isDone  //If the task is finished
-                        //       ? TextDecoration.lineThrough    //Strike it!
-                        //       : TextDecoration.none,
-                        //   decorationThickness: _tasks[index].isDone ? 2 : null,
-                        // ),
+                      title: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            _tasks[index].isTitle,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ),
 
                     subtitle: Column(

@@ -8,7 +8,7 @@ class MCheckBoxTheme{
     //Placeholder for the Light theme
   );
 
-  static const DarkCheckBoxTheme = CheckboxThemeData(
+  static const darkCheckBoxTheme = CheckboxThemeData(
     //Placeholder for the dark theme
   );
 }
