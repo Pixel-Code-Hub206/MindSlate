@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:mindslate/models/tasks.dart';
+import 'package:mindslate/models/boxes.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -16,11 +17,7 @@ class _HomeState extends State<Home> {
   String _taskBody = '';
   Priority _selectedPriority = Priority.low;
 
-  final List<Tasks> _tasks = [
-    Tasks(isTitle: 'Task 1', isBody: 'Some description here!', priority: Priority.medium.nameValue, isDone: false),
-    Tasks(isTitle: 'Task 2', isBody: 'Try using the + button to add tasks!', priority: Priority.high.nameValue, isDone: false),
-    Tasks(isTitle: 'Task X', isBody: 'Delete the tasks using the bin icon.', priority: Priority.medium.nameValue, isDone: false),
-  ];
+  final tasksBox = Boxes.getTasks();
 
   @override
   Widget build(BuildContext context) {
@@ -62,16 +59,20 @@ class _HomeState extends State<Home> {
         ),
 
         body: ListView.builder(
-          itemCount: _tasks.length,
+          itemCount: tasksBox.length,
             itemBuilder: (BuildContext context, int index){
+            final task = tasksBox.getAt(index);
+            if(task == null) return SizedBox();   //PlaceHolder
+
             return Container(
               padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 5.0),
               child: Card(
                 color: Theme.of(context).cardColor,
                   child: ListTile(
-                    leading : Checkbox(value: _tasks[index].isDone,
+                    leading : Checkbox(value: task.isDone,
                         onChanged: (newBool) {
-                      toggleDone(index);
+                      task.toggleDone();
+                      setState(() {});
                         },
                     ),
 
@@ -80,7 +81,7 @@ class _HomeState extends State<Home> {
                         child: Align(
                           alignment: Alignment.center,
                           child: Text(
-                            _tasks[index].isTitle,
+                            task.isTitle,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
@@ -93,13 +94,13 @@ class _HomeState extends State<Home> {
                         Align(
                           alignment: Alignment.centerLeft,    //For neater Card Formatting
                           child: Text(
-                            _tasks[index].isBody,     //Task Description
+                            task.isBody,     //Task Description
                             style: TextStyle(
                               fontSize: 18.0,
-                              decoration: _tasks[index].isDone  //If the task is finished
+                              decoration: task.isDone  //If the task is finished
                                   ? TextDecoration.lineThrough    //Strike it!
                                   : TextDecoration.none,
-                              decorationThickness: _tasks[index].isDone ? 1.5 : null,
+                              decorationThickness: task.isDone ? 1.5 : null,
                             ),
                           ),
                         ),
@@ -107,9 +108,9 @@ class _HomeState extends State<Home> {
                         SizedBox(height: 5.0),
 
                         Text(
-                          priorityFromString(_tasks[index].priority).pTitle,
+                          priorityFromString(task.priority).pTitle,
                           style: TextStyle(
-                            color: priorityFromString(_tasks[index].priority).color,
+                            color: priorityFromString(task.priority).color,
                           ),
                         ),
                       ],
@@ -237,7 +238,7 @@ class _HomeState extends State<Home> {
 
   void addTask(){
     setState(() {   //Using SetState to display changes in the actual UI by updating the list within
-      _tasks.add(Tasks(
+      tasksBox.add(Tasks(
           isTitle: _taskTitle,    //Saving the local input data and storing it with a new instance for the list
           isBody: _taskBody,
           priority: _selectedPriority.nameValue,
@@ -248,14 +249,16 @@ class _HomeState extends State<Home> {
 
   void deleteTask(int index){     //Deletes the tasks and removes them from the UI
     setState(() {
-      _tasks.removeAt(index);
+      tasksBox.deleteAt(index);
     });
   }
 
   void toggleDone(int index)    //Striking the task once completed
   {
+    final task = tasksBox.getAt(index);
     setState(() {
-      _tasks[index].toggleDone();
+      task?.toggleDone();
+      task?.save();
     });
   }
 }
