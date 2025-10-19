@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mindslate/utils/theme/app_theme.dart';
 import 'package:mindslate/pages/home_screen.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 void main() => runApp(
     DevicePreview(

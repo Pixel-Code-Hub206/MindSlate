@@ -14,7 +14,7 @@ class AppTheme{
    brightness: Brightness.light,
    primaryColor: Colors.blue,
    cardColor: const Color(0xFFFFFFFF),
-   scaffoldBackgroundColor: Colors.white,
+   scaffoldBackgroundColor: Color(0xFFD3D3D3),
    textTheme: AppTextTheme.lightTextTheme,
    appBarTheme: MAppBarTheme.lightAppBarTheme,
    floatingActionButtonTheme: MFloatingActionTheme.lightFloatingActionButtonTheme,

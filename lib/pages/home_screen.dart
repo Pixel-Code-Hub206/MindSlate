@@ -17,9 +17,9 @@ class _HomeState extends State<Home> {
   Priority _selectedPriority = Priority.low;
 
   final List<Tasks> _tasks = [
-    Tasks(isTitle: 'Task 1', isBody: 'Some description here!', priority: Priority.medium, isDone: false),
-    Tasks(isTitle: 'Task 2', isBody: 'Try using the + button to add tasks!', priority: Priority.high, isDone: false),
-    Tasks(isTitle: 'Task X', isBody: 'Delete the tasks using the bin icon.', priority: Priority.medium, isDone: false),
+    Tasks(isTitle: 'Task 1', isBody: 'Some description here!', priority: Priority.medium.nameValue, isDone: false),
+    Tasks(isTitle: 'Task 2', isBody: 'Try using the + button to add tasks!', priority: Priority.high.nameValue, isDone: false),
+    Tasks(isTitle: 'Task X', isBody: 'Delete the tasks using the bin icon.', priority: Priority.medium.nameValue, isDone: false),
   ];
 
   @override
@@ -107,9 +107,9 @@ class _HomeState extends State<Home> {
                         SizedBox(height: 5.0),
 
                         Text(
-                          _tasks[index].priority.pTitle,
+                          priorityFromString(_tasks[index].priority).pTitle,
                           style: TextStyle(
-                            color: _tasks[index].priority.color,
+                            color: priorityFromString(_tasks[index].priority).color,
                           ),
                         ),
                       ],
@@ -240,7 +240,7 @@ class _HomeState extends State<Home> {
       _tasks.add(Tasks(
           isTitle: _taskTitle,    //Saving the local input data and storing it with a new instance for the list
           isBody: _taskBody,
-          priority: _selectedPriority,
+          priority: _selectedPriority.nameValue,
           isDone: false
       ));
     });
