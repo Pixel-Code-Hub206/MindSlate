@@ -79,7 +79,7 @@ class _HomeState extends State<Home> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(6.0, 5.0, 6.0, 0.0),
+                            padding: const EdgeInsets.fromLTRB(6.0, 5.0, 6.0, 3.0),
                             child: Align(
                               alignment: Alignment.center,
                               child: Text(
@@ -141,7 +141,7 @@ class _HomeState extends State<Home> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(6.0, 0.0, 6.0, 5.0),
+                            padding: const EdgeInsets.fromLTRB(6.0, 2.0, 6.0, 5.0),
                             child: Text(
                               priorityFromString(task.priority).pTitle,
                               style: TextStyle(
@@ -228,28 +228,30 @@ class _HomeState extends State<Home> {
                                 },
                             ),
 
-                            SizedBox(height: 100.0),
+                            Spacer(),
 
-                            SafeArea(
-                              child: FilledButton(onPressed: () {
-                                if(_formGlobalKey.currentState!.validate()){ //Form Validation
-                                  _formGlobalKey.currentState!.save();  //Lock the data from the fields
-                                  addTask();    //Only adds to-do's once the Form is validated
-                                  _formGlobalKey.currentState!.reset();
-                                }
-                              },
-                                style: FilledButton.styleFrom(
-                                  backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-                                ),
-                                  child: Text(
-                                    'Add Task',
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                      color: Theme.of(context).appBarTheme.foregroundColor,
-                                    ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 30.0),
+                                child: FilledButton(onPressed: () {
+                                  if(_formGlobalKey.currentState!.validate()){ //Form Validation
+                                    _formGlobalKey.currentState!.save();  //Lock the data from the fields
+                                    addTask();    //Only adds to-do's once the Form is validated
+                                    _formGlobalKey.currentState!.reset();
+                                    Navigator.pop(context);   //Close the Sheet once the form is submitted
+                                  }
+                                },
+                                  style: FilledButton.styleFrom(
+                                    backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
                                   ),
+                                    child: Text(
+                                      'Add Task',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        color: Theme.of(context).appBarTheme.foregroundColor,
+                                      ),
+                                    ),
+                                ),
                               ),
-                            ),
                           ],
                         ),
                       ),
