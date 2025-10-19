@@ -35,22 +35,26 @@ class _HomeState extends State<Home> {
                     color: Theme.of(context).appBarTheme.foregroundColor,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Vibur',
-                    fontSize: 28.0,
+                    fontSize: 26.0,
                   ),
                 ),
+
+                SizedBox(width: 1.0),
+
                 Card(
                   color: Theme.of(context).colorScheme.surface,
-                 child: Padding(
-                   padding: const EdgeInsets.all(7.0),
-                   child: Text(
-                       'Slate',
-                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                       color: Theme.of(context).colorScheme.onSurface,
-                       fontWeight: FontWeight.w600,
-                       fontFamily: 'Vibur',
-                       fontSize: 28.0,
+                 child: Container(
+                   margin: const EdgeInsets.all(2.0),
+                   padding: const EdgeInsets.all(2.0),
+                     child: Text(
+                         'Slate',
+                       style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                         color: Theme.of(context).colorScheme.onSurface,
+                         fontWeight: FontWeight.w600,
+                         fontFamily: 'Vibur',
+                         fontSize: 26.0,
+                       ),
                      ),
-                   ),
                  ),
                 ),
               ],
@@ -62,66 +66,92 @@ class _HomeState extends State<Home> {
           itemCount: tasksBox.length,
             itemBuilder: (BuildContext context, int index){
             final task = tasksBox.getAt(index);
-            if(task == null) return SizedBox();   //PlaceHolder
+            if(task == null) return SizedBox();   //PlaceHolder if DB is empty
 
             return Container(
               padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 5.0),
               child: Card(
                 color: Theme.of(context).cardColor,
-                  child: ListTile(
-                    leading : Checkbox(value: task.isDone,
-                        onChanged: (newBool) {
-                      task.toggleDone();
-                      setState(() {});
-                        },
-                    ),
 
-                      title: Padding(
-                        padding: const EdgeInsets.fromLTRB(6.0, 4.5, 6.0, 0.0),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            task.isTitle,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(6.0, 5.0, 6.0, 0.0),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                task.isTitle,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
 
-                    subtitle: Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,    //For neater Card Formatting
-                          child: Text(
-                            task.isBody,     //Task Description
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              decoration: task.isDone  //If the task is finished
-                                  ? TextDecoration.lineThrough    //Strike it!
-                                  : TextDecoration.none,
-                              decorationThickness: task.isDone ? 1.5 : null,
+                      Row(
+                        children: [
+                              //CheckBox
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(10.0, 4.0, 0.0, 4.0),
+                                child: Checkbox(value: task.isDone,
+                                  onChanged: (newBool) {
+                                    task.toggleDone();
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
+
+                              SizedBox(width: 5.0),
+
+                              //Body of the Task
+                                Expanded(
+                                  flex: 9,
+                                  child: Text(
+                                    task.isBody,     //Task Description
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      decoration: task.isDone  //If the task is finished
+                                          ? TextDecoration.lineThrough    //Strike it!
+                                          : TextDecoration.none,
+                                      decorationThickness: task.isDone ? 1.5 : null,
+                                    ),
+                                  ),
+                                ),
+
+                          Spacer(),
+
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 4.0, 10.0, 4.0),
+                            child: IconButton(onPressed: (){
+                              print('Task is deleted');   //Console logs
+                              deleteTask(index);
+                            },
+                              icon: Icon(Icons.delete),
                             ),
                           ),
-                        ),
+                        ],
+                      ),
 
-                        SizedBox(height: 5.0),
-
-                        Text(
-                          priorityFromString(task.priority).pTitle,
-                          style: TextStyle(
-                            color: priorityFromString(task.priority).color,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(6.0, 0.0, 6.0, 5.0),
+                            child: Text(
+                              priorityFromString(task.priority).pTitle,
+                              style: TextStyle(
+                                color: priorityFromString(task.priority).color,
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-
-                    trailing: IconButton(onPressed: (){
-                      print('Task is deleted');   //Console logs
-                      deleteTask(index);
-                    },
-                        icon: Icon(Icons.delete),
-                    ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
             ); //Test data over the UI,
