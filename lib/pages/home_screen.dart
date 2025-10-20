@@ -85,7 +85,7 @@ class _HomeState extends State<Home> {
                               child: Text(
                                 task.isTitle,
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w900,
                                 ),
                               ),
                             ),
@@ -146,6 +146,7 @@ class _HomeState extends State<Home> {
                               priorityFromString(task.priority).pTitle,
                               style: TextStyle(
                                 color: priorityFromString(task.priority).color,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
@@ -247,6 +248,7 @@ class _HomeState extends State<Home> {
                                       'Add Task',
                                       style: TextStyle(
                                         fontSize: 16.0,
+                                        fontWeight: FontWeight.w600,
                                         color: Theme.of(context).appBarTheme.foregroundColor,
                                       ),
                                     ),

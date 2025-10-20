@@ -95,10 +95,10 @@ flutter:
 
 flutter_native_splash:
   color: "#400189"
-  image: assets/logo/Temp_Splash_Screen.png
+  image: assets/logo/Logo6.jpg
 
   android_12:
-    image: assets/logo/Temp_Splash_Screen.png
+    image: assets/logo/Logo6.jpg
     color: "#400189"
 
   android: true
