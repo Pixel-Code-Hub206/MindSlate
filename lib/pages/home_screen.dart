@@ -88,13 +88,13 @@ class _HomeState extends State<Home> {
                   ),
                 ),
 
-                SizedBox(width: 1.0),
+                SizedBox(width: 2.0),
 
                 Card(
                   color: Theme.of(context).colorScheme.surface,
                  child: Container(
                    margin: const EdgeInsets.all(2.0),
-                   padding: const EdgeInsets.all(2.0),
+                   padding: const EdgeInsets.fromLTRB(4.0, 2.0, 6.0, 0.0),
                      child: Text(
                          'Slate',
                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
@@ -109,6 +109,7 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
+          toolbarHeight: 70.0,
         ),
 
         body: ListView.builder(
@@ -212,87 +213,97 @@ class _HomeState extends State<Home> {
             builder: (innerContext) => FloatingActionButton(
               onPressed: () {
                 print('FAB clicked!');
-                showModalBottomSheet(context: context,
+                showModalBottomSheet(
+                  isScrollControlled: true,
+                  context: context,
                   builder: (BuildContext context)
                   {
-                    return Form(
-                      key: _formGlobalKey,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          children: [
-                            SizedBox(height: 20.0),
+                    return SizedBox(
+                      height: 350,
+                      child: Column(
+                        children: [
+                        Form(
+                        key: _formGlobalKey,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              SizedBox(height: 20.0),
 
-                            TextFormField(    //Input for the task description
-                              maxLength: 25,
-                              decoration: const InputDecoration(
-                                hintText: 'Enter your title',
-                                labelText: 'Task Title',
+                              TextFormField(    //Input for the task description
+                                maxLength: 25,
+                                decoration: const InputDecoration(
+                                  hintText: 'Enter your title',
+                                  labelText: 'Task Title',
+                                ),
+                                validator: (value) {
+                                  if(value == null || value.isEmpty || value.length < 2)
+                                  {
+                                    return "Title too short";
+                                  }
+                                  return null;  //If no-errors
+                                },
+                                onSaved: (value) {
+                                  _taskTitle= value!;   //Updating the task's description after validation
+                                },
                               ),
-                              validator: (value) {
-                                if(value == null || value.isEmpty || value.length < 2)
-                                {
-                                  return "Title too short";
-                                }
-                                return null;  //If no-errors
-                              },
-                              onSaved: (value) {
-                                _taskTitle= value!;   //Updating the task's description after validation
-                              },
-                            ),
 
-                            TextFormField(    //Input for the task description
-                              maxLength: 50,
-                              decoration: const InputDecoration(
-                                hintText: 'Enter your description',
-                                labelText: 'Task Description',
-                              ),
-                              validator: (value) {
-                                if(value == null || value.isEmpty || value.length < 5)
+                              TextFormField(    //Input for the task description
+                                maxLength: 50,
+                                decoration: const InputDecoration(
+                                  hintText: 'Enter your description',
+                                  labelText: 'Task Description',
+                                ),
+                                validator: (value) {
+                                  if(value == null || value.isEmpty || value.length < 5)
                                   {
                                     return "Add more details";
                                   }
                                   return null;  //If no-errors
-                              },
+                                },
                                 onSaved: (value) {
                                   _taskBody = value!;   //Updating the task's description after validation
                                 },
-                            ),
-
-                            DropdownButtonFormField(
-                              value: _selectedPriority,
-                              decoration: const InputDecoration(
-                                hintText: 'Set your Priority',
-                                labelText: 'Task Priority',
                               ),
-                              items: Priority.values.map((p) {
-                                return DropdownMenuItem(
-                                  value: p,
+
+                              DropdownButtonFormField(
+                                value: _selectedPriority,
+                                decoration: const InputDecoration(
+                                  hintText: 'Set your Priority',
+                                  labelText: 'Task Priority',
+                                ),
+                                items: Priority.values.map((p) {
+                                  return DropdownMenuItem(
+                                    value: p,
                                     child: Text(p.pTitle),  //Using the p identifier to mark each item in the list
-                                );
-                            }).toList(),
+                                  );
+                                }).toList(),
                                 onChanged: (value) {
-                                setState(() {
-                                  _selectedPriority = value!; //Save the selected priority and rebuild the widget
-                                });
+                                  setState(() {
+                                    _selectedPriority = value!; //Save the selected priority and rebuild the widget
+                                  });
                                 },
-                            ),
+                              ),
 
-                            Spacer(),
+                              SizedBox(height: 22),
 
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 30.0),
-                                child: FilledButton(onPressed: () {
-                                  if(_formGlobalKey.currentState!.validate()){ //Form Validation
-                                    _formGlobalKey.currentState!.save();  //Lock the data from the fields
-                                    addTask();    //Only adds to-do's once the Form is validated
-                                    _formGlobalKey.currentState!.reset();
-                                    Navigator.pop(context);   //Close the Sheet once the form is submitted
-                                  }
-                                },
-                                  style: FilledButton.styleFrom(
-                                    backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-                                  ),
+                              SafeArea(
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 30.0),
+                                  child: FilledButton(onPressed: () {
+                                    if(_formGlobalKey.currentState!.validate()){ //Form Validation
+                                      _formGlobalKey.currentState!.save();  //Lock the data from the fields
+                                      addTask();    //Only adds to-do's once the Form is validated
+                                      _formGlobalKey.currentState!.reset();
+                                      Navigator.pop(context);   //Close the Sheet once the form is submitted
+                                    }
+                                  },
+                                    style: FilledButton.styleFrom(
+                                      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+                                      shape:  RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15.0), // Adjust the radius as needed
+                                      ),
+                                    ),
                                     child: Text(
                                       'Add Task',
                                       style: TextStyle(
@@ -301,10 +312,14 @@ class _HomeState extends State<Home> {
                                         color: Theme.of(context).appBarTheme.foregroundColor,
                                       ),
                                     ),
+                                  ),
                                 ),
                               ),
-                          ],
+                            ],
+                          ),
                         ),
+                      ),
+                        ],
                       ),
                     );
                   },
