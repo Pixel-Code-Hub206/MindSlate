@@ -32,7 +32,7 @@ class _HomeState extends State<Home> {
     tasksBox.add(
       Tasks(
         isTitle: 'Hello there!',
-        isBody: 'Welcome to Mindslate!',
+        isBody: 'Welcome to MindSlate!',
         isDone: false,
         priority: 'medium',
       ),
