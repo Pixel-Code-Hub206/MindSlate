@@ -12,6 +12,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(TasksAdapter());
   var tasksBox = await Hive.openBox<Tasks>('tasksBox');   //Opening the Box
+  var settings = await Hive.openBox('Settings');
 
   runApp(
     DevicePreview(

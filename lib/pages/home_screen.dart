@@ -12,12 +12,61 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
+  final tasksBox = Boxes.getTasks();
+
+  @override
+  void initState() {
+    super.initState();
+
+    final settingBox = Boxes.getSettings();     //Box to implement welcome tasks for the home screen
+    bool isFirstTime = settingBox.get('isFirstTime', defaultValue: true);   //Flag to check if the app was opened for the first time
+
+    if(isFirstTime){
+      createInitialData();
+    }
+  }
+  void createInitialData(){
+    final settingBox = Boxes.getSettings();
+
+    // Task 1: The Welcome Task
+    tasksBox.add(
+      Tasks(
+        isTitle: 'Hello there!',
+        isBody: 'Welcome to Mindslate!',
+        isDone: false,
+        priority: 'medium',
+      ),
+    );
+
+    // Task 2: The Core Action (Adding)
+    tasksBox.add(
+      Tasks(
+        isTitle: 'Create a new task',
+        isBody: 'Tap the "+" button to add your own items.',
+        isDone: false,
+        priority: 'high',
+      ),
+    );
+
+    // Task 3: The Other Actions (Completing & Deleting)
+    tasksBox.add(
+      Tasks(
+        isTitle: 'Manage your list',
+        isBody: 'Tap the checkbox to complete a task, or the bin to remove it.',
+        isDone: false,
+        priority: 'low',
+      ),
+    );
+
+    // Set the flag to false so this block never runs again.
+    settingBox.put('isFirstTime', false);
+    setState(() {});    //Refreshing the UI
+  }
+
   final _formGlobalKey = GlobalKey<FormState>();
   String _taskTitle = '';
   String _taskBody = '';
   Priority _selectedPriority = Priority.low;
-
-  final tasksBox = Boxes.getTasks();
 
   @override
   Widget build(BuildContext context) {
@@ -193,7 +242,7 @@ class _HomeState extends State<Home> {
                             ),
 
                             TextFormField(    //Input for the task description
-                              maxLength: 40,
+                              maxLength: 50,
                               decoration: const InputDecoration(
                                 hintText: 'Enter your description',
                                 labelText: 'Task Description',

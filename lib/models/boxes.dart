@@ -3,4 +3,5 @@ import 'tasks.dart';
 
 class Boxes{
   static Box<Tasks> getTasks() => Hive.box<Tasks>('tasksBox');
+  static Box getSettings() => Hive.box('Settings');
 }
