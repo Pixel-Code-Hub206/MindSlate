@@ -218,109 +218,146 @@ class _HomeState extends State<Home> {
                   context: context,
                   builder: (BuildContext context)
                   {
-                    return SizedBox(
-                      height: 350,
-                      child: Column(
-                        children: [
-                        Form(
-                        key: _formGlobalKey,
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Column(
-                            children: [
-                              SizedBox(height: 20.0),
+                    return StatefulBuilder(
+                      builder: (BuildContext context, StateSetter modalSetState) {
 
-                              TextFormField(    //Input for the task description
-                                maxLength: 25,
-                                decoration: const InputDecoration(
-                                  hintText: 'Enter your title',
-                                  labelText: 'Task Title',
-                                ),
-                                validator: (value) {
-                                  if(value == null || value.isEmpty || value.length < 2)
-                                  {
-                                    return "Title too short";
-                                  }
-                                  return null;  //If no-errors
-                                },
-                                onSaved: (value) {
-                                  _taskTitle= value!;   //Updating the task's description after validation
-                                },
-                              ),
+                        // 1. Create controller *INSIDE* the Builder
+                        final TextEditingController priorityController = TextEditingController(
+                          text: _selectedPriority.pTitle,
+                        );
 
-                              TextFormField(    //Input for the task description
-                                maxLength: 50,
-                                decoration: const InputDecoration(
-                                  hintText: 'Enter your description',
-                                  labelText: 'Task Description',
-                                ),
-                                validator: (value) {
-                                  if(value == null || value.isEmpty || value.length < 5)
-                                  {
-                                    return "Add more details";
-                                  }
-                                  return null;  //If no-errors
-                                },
-                                onSaved: (value) {
-                                  _taskBody = value!;   //Updating the task's description after validation
-                                },
-                              ),
+                        return SingleChildScrollView(   //Prevents Overflow errors
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 350),    //Makes the form manifest smoother over the screen
+                            curve: Curves.easeOut,
+                            padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom,   //Pushes the form up by the exact height required
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,       //Prevents the form from taking the entire screen
+                              children: [
+                                Form(
+                                  key: _formGlobalKey,      //The form controller key
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      children: [
+                                        SizedBox(height: 20.0),
 
-                              DropdownButtonFormField(
-                                value: _selectedPriority,
-                                decoration: const InputDecoration(
-                                  hintText: 'Set your Priority',
-                                  labelText: 'Task Priority',
-                                ),
-                                items: Priority.values.map((p) {
-                                  return DropdownMenuItem(
-                                    value: p,
-                                    child: Text(p.pTitle),  //Using the p identifier to mark each item in the list
-                                  );
-                                }).toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _selectedPriority = value!; //Save the selected priority and rebuild the widget
-                                  });
-                                },
-                              ),
+                                        TextFormField(
+                                          maxLength: 25,
+                                          decoration: const InputDecoration(
+                                            hintText: 'Enter your title',
+                                            labelText: 'Task Title',
+                                          ),
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty || value.length < 2) {
+                                              return "Title too short";
+                                            }
+                                            return null;
+                                          },
+                                          onSaved: (value) {
+                                            _taskTitle = value!;
+                                          },
+                                        ),
 
-                              SizedBox(height: 22),
+                                        TextFormField(
+                                          maxLength: 50,
+                                          decoration: const InputDecoration(
+                                            hintText: 'Enter your description',
+                                            labelText: 'Task Description',
+                                          ),
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty || value.length < 5) {
+                                              return "Add more details";
+                                            }
+                                            return null;
+                                          },
+                                          onSaved: (value) {
+                                            _taskBody = value!;
+                                          },
+                                        ),
 
-                              SafeArea(
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 30.0),
-                                  child: FilledButton(onPressed: () {
-                                    if(_formGlobalKey.currentState!.validate()){ //Form Validation
-                                      _formGlobalKey.currentState!.save();  //Lock the data from the fields
-                                      addTask();    //Only adds to-do's once the Form is validated
-                                      _formGlobalKey.currentState!.reset();
-                                      Navigator.pop(context);   //Close the Sheet once the form is submitted
-                                    }
-                                  },
-                                    style: FilledButton.styleFrom(
-                                      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-                                      shape:  RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15.0), // Adjust the radius as needed
-                                      ),
-                                    ),
-                                    child: Text(
-                                      'Add Task',
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w600,
-                                        color: Theme.of(context).appBarTheme.foregroundColor,
-                                      ),
+                                        // 2. THE "FAKE" DROPDOWN
+                                        TextFormField(
+                                          controller: priorityController, // Use the new controller
+                                          readOnly: true,
+                                          decoration: const InputDecoration(
+                                            hintText: 'Set your Priority',
+                                            labelText: 'Task Priority',
+                                          ),
+                                          onTap: () {
+                                            // Dismiss any keyboard
+                                            FocusScope.of(context).unfocus();
+                                            // Show the simple option sheet
+                                            showModalBottomSheet(
+                                              context: context,
+                                              builder: (ctx) {
+                                                return Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: Priority.values.map((p) {
+                                                    return ListTile(
+                                                      title: Text(p.pTitle),
+                                                      onTap: () {
+                                                        // 3. THIS IS THE LOGIC
+                                                        // Just update the variable and
+                                                        // let the builder re-run.
+                                                        modalSetState(() {
+                                                          _selectedPriority = p;
+                                                        });
+                                                        Navigator.pop(ctx);
+                                                      },
+                                                    );
+                                                  }).toList(),
+                                                );
+                                              },
+                                            );
+                                          },
+                                        ),
+
+                                        SizedBox(height: 22),
+
+                                        // ... Your "Add Task" Button (no change) ...
+                                        Padding(
+                                          padding:
+                                          const EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 30.0),
+                                          child: FilledButton(
+                                            onPressed: () {
+                                              if (_formGlobalKey.currentState!.validate()) {
+                                                _formGlobalKey.currentState!.save();
+                                                addTask();
+                                                _formGlobalKey.currentState!.reset();
+                                                Navigator.pop(context);
+                                              }
+                                            },
+                                            style: FilledButton.styleFrom(
+                                              backgroundColor:
+                                              Theme.of(context).appBarTheme.backgroundColor,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(15.0),
+                                              ),
+                                            ),
+                                            child: Text(
+                                              'Add Task',
+                                              style: TextStyle(
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.w600,
+                                                color: Theme.of(context)
+                                                    .appBarTheme
+                                                    .foregroundColor,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ),
-                        ],
-                      ),
+                        );
+                      },
                     );
                   },
                 );
